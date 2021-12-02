@@ -1,5 +1,9 @@
-mod day01;
+mod useful;
+
+mod day_01;
+mod day_02;
 
 fn main() {
-	//day01::day01();
+	//day_01::day_01();
+	day_02::day_02();
 }
