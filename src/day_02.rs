@@ -1,11 +1,14 @@
-use crate::useful::file_to_vec;
+// Advent of Code 2021
+// Day 2 - Dive!
 
 // On the SECOND day of Rustmas, Ferris gave to me
 // Two closure pipes ||
 
+use crate::useful::file_to_vec;
+
 #[allow(dead_code)]
-pub fn day_02() {
-	let vec = file_to_vec::<String>("day_02.txt");
+pub fn day_02(file: &str) -> i32 {
+	let vec = file_to_vec::<String>(file);
 
 	let mut hpos = 0;
 	let mut depth = 0;
@@ -28,5 +31,10 @@ pub fn day_02() {
 		}
 	}
 
-	println!("{}", hpos * depth);
+	hpos * depth
+}
+
+#[test]
+fn test_day_02() {
+	assert_eq!(day_02("day_02_test.txt"), 900);
 }
