@@ -8,13 +8,13 @@ use crate::useful::file_to_vec;
 
 #[allow(dead_code)]
 pub fn day_02(file: &str) -> i32 {
-	let vec = file_to_vec::<String>(file);
+	let input = file_to_vec::<String>(file);
 
 	let mut hpos = 0;
 	let mut depth = 0;
 	let mut aim = 0;
 
-	for command in vec {
+	for command in input {
 		let words: Vec<&str> = command.split_whitespace().collect();
 		let amount = words[1].parse::<i32>().unwrap();
 		match words[0] {
