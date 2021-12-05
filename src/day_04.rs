@@ -56,8 +56,7 @@ pub fn day_04(file: &str, last_winner: bool) -> u32 {
 				if check != 0 {
 					if !last_winner {
 						return check;
-					}
-					else {
+					} else {
 						boards_won.insert(i);
 						if boards_won.len() == board_count {
 							return check;
@@ -74,7 +73,7 @@ pub fn day_04(file: &str, last_winner: bool) -> u32 {
 }
 
 #[test]
-fn day_04_test() {
+fn test_day_04() {
 	assert_eq!(day_04("day_04_test.txt", false), 4512);
 	assert_eq!(day_04("day_04_test.txt", true), 1924);
 }
