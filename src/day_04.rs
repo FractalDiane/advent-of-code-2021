@@ -36,14 +36,14 @@ pub fn day_04(file: &str, last_winner: bool) -> u32 {
 	let board_count = (input.len() - 1) / 6;
 	for i in 0..board_count {
 		boards.push(Vec::new());
-		(0..5).for_each(|j| {
+		for j in 0..5 {
 			let row = &input[2 + 6 * i + j];
 			row.split_whitespace().into_iter().for_each(|n| boards[i].push(n.parse::<u16>().unwrap()));
-		});
+		}
 	}
 
 	let mut called = HashSet::<u16>::new();
-	let mut boards_won = HashSet::<u16>::new();
+	let mut boards_won = if last_winner { HashSet::<u16>::new() } else { HashSet::with_capacity(0) };
 
 	for call in calls {
 		let call_num = call.parse::<u16>().unwrap();
@@ -51,7 +51,7 @@ pub fn day_04(file: &str, last_winner: bool) -> u32 {
 
 		let mut i = 0;
 		for board in &boards {
-			if !boards_won.contains(&i) {
+			if !last_winner || !boards_won.contains(&i) {
 				let check = is_win(board, &called, call_num);
 				if check != 0 {
 					if !last_winner {
