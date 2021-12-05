@@ -23,6 +23,6 @@ fn main() {
 	//println!("{}", day_04::day_04("day_04.txt", false));
 	//println!("{}", day_04::day_04("day_04.txt", true));
 
-	//println!("{}", day_05::day_05("day_05.txt", false));
+	println!("{}", day_05::day_05("day_05.txt", false));
 	println!("{}", day_05::day_05("day_05.txt", true));
 }
