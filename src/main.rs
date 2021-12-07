@@ -12,6 +12,7 @@ mod day_03;
 mod day_04;
 mod day_05;
 mod day_06;
+mod day_07;
 
 fn main() {
 	//println!("{}", day_01::day_01("day_01.txt"));
@@ -27,6 +28,9 @@ fn main() {
 	//println!("{}", day_05::day_05("day_05.txt", false));
 	//println!("{}", day_05::day_05("day_05.txt", true));
 
-	println!("{}", day_06::day_06("day_06.txt", 80));
-	println!("{}", day_06::day_06("day_06.txt", 256));
+	//println!("{}", day_06::day_06("day_06.txt", 80));
+	//println!("{}", day_06::day_06("day_06.txt", 256));
+
+	println!("{}", day_07::day_07("day_07.txt", false));
+	println!("{}", day_07::day_07("day_07.txt", true));
 }
