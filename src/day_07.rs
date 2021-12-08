@@ -9,7 +9,7 @@ use crate::useful::file_to_vec;
 fn sigma(n: u64) -> u64 {
 	match n {
 		0 => 0,
-		_ => n + sigma(n - 1)
+		_ => n + sigma(n - 1),
 	}
 }
 
