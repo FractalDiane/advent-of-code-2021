@@ -76,6 +76,7 @@ pub fn day_08_part2(file: &str) -> u32 {
 			for i in 0u8..10 {
 				if chars == patterns[i as usize] {
 					output_string.push((i + b'0') as char);
+					break;
 				}
 			}
 		}

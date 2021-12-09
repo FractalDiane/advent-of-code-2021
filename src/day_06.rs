@@ -2,7 +2,7 @@
 // Day 6 - Lanternfish
 
 // On the SIXTH day of Rustmas, Ferris gave to me
-// Six refs a-pointing
+// Six threads a-launching
 
 use crate::useful::file_to_vec;
 use std::collections::HashMap;
