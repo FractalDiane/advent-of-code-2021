@@ -2,7 +2,7 @@
 // Day 8 - Seven Segment Search
 
 // On the EIGHTH day of Rustmas, Ferris gave to me
-// Eight crates a-scoping
+// Eight bits a-shifting
 
 use crate::useful::file_to_vec;
 
