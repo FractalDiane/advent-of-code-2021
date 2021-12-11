@@ -9,18 +9,19 @@ use crate::useful::file_to_vec;
 #[allow(dead_code)]
 pub fn day_10(file: &str, completion_mode: bool) -> u64 {
 	let input = file_to_vec::<String>(file);
-
 	let opens = ['(', '[', '{', '<'];
+	
 	let mut stack = Vec::<char>::new();
 	let mut score = 0u64;
 	let mut incomplete_scores = Vec::<u64>::new();
+
 	for line in input {
 		let mut corrupted = false;
 		for c in line.chars() {
 			if opens.contains(&c) {
 				stack.push(c);
 			} else {
-				let opposite = (c as u8 - if c == ')' { 1 } else { 2 }) as char;
+				let opposite = (c as u8 - 1 - (c != ')') as u8) as char;
 				if *stack.last().unwrap_or(&'x') == opposite {
 					stack.pop();
 				} else {
