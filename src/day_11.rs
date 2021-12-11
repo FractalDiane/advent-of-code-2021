@@ -24,19 +24,21 @@ fn adjacent_indices(index: usize, row_size: usize) -> Vec<usize> {
 	ret
 }
 
-fn flash(index: usize, row_size: usize, octopuses: &mut Vec<u8>, flashed: &mut HashSet<usize>, check_indices: &mut Vec<usize>) {
-	for ind in adjacent_indices(index, row_size) {
+fn flash(index: usize, row_size: usize, octopuses: &mut Vec<u8>, flashed: &mut HashSet<usize>) -> Vec<usize> {
+	adjacent_indices(index, row_size).into_iter().fold(vec![], |mut vec, ind| {
 		match octopuses.get_mut(ind) {
 			Some(oct) => {
 				*oct += 1;
 				if *oct > 9 && !flashed.contains(&ind) {
-					check_indices.push(ind);
+					vec.push(ind);
 					flashed.insert(ind);
 				}
 			},
 			None => {},
 		}
-	}
+
+		vec
+	})
 }
 
 #[allow(dead_code)]
@@ -67,7 +69,7 @@ pub fn day_11(file: &str, iterations: u32, first_total_flash: bool) -> u32 {
 			let inds = check_indices.clone();
 			check_indices.clear();
 			for ind in inds {
-				flash(ind, row_size, &mut octopuses, &mut flashed, &mut check_indices);
+				check_indices.extend(flash(ind, row_size, &mut octopuses, &mut flashed));
 			}
 		}
 
