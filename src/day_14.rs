@@ -29,7 +29,7 @@ pub fn day_14(file: &str, steps: u32) -> u64 {
 		*pairs.entry(pair).or_insert(0) += 1;
 	}
 
-	for _i in 0..steps {
+	for _ in 0..steps {
 		let mut new_pairs = HashMap::<String, u64>::new();
 		for pair in pairs.keys() {
 			match rules.get(pair.as_str()) {
