@@ -67,5 +67,6 @@ fn main() {
 	//println!("{}", day_15::day_15("day_15.txt", false));
 	//println!("{}", day_15::day_15("day_15.txt", true));
 
-	println!("{}", day_16::day_16("day_16.txt"));
+	println!("{}", day_16::day_16("day_16.txt", false));
+	println!("{}", day_16::day_16("day_16.txt", true));
 }
