@@ -70,28 +70,14 @@ fn parse_packet(bin: &str) -> (u64, usize, u64) {
 			}
 		}
 
-		let result: u64 = match type_id {
-			0 => {
-				packet_results.iter().sum()
-			},
-			1 => {
-				packet_results.iter().product()
-			},
-			2 => {
-				*packet_results.iter().min().unwrap()
-			},
-			3 => {
-				*packet_results.iter().max().unwrap()
-			},
-			5 => {
-				(packet_results[0] > packet_results[1]) as u64
-			},
-			6 => {
-				(packet_results[0] < packet_results[1]) as u64
-			},
-			_ => {
-				(packet_results[0] == packet_results[1]) as u64
-			},
+		let result = match type_id {
+			0 => packet_results.iter().sum(),
+			1 => packet_results.iter().product(),
+			2 => *packet_results.iter().min().unwrap(),
+			3 => *packet_results.iter().max().unwrap(),
+			5 => (packet_results[0] > packet_results[1]) as u64,
+			6 => (packet_results[0] < packet_results[1]) as u64,
+			_ => (packet_results[0] == packet_results[1]) as u64,
 		};
 
 		(result, len + sub_len, version)
