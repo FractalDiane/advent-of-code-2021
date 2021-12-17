@@ -5,7 +5,34 @@
 // Fifteen random numbers
 
 use crate::useful::file_to_vec;
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, HashSet};
+
+#[derive(PartialEq, Eq, Hash, Clone)]
+struct Node {
+	index: usize,
+	distance: u32,
+}
+
+impl std::cmp::PartialOrd for Node {
+	fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+		if self.distance == other.distance {
+			Some(std::cmp::Ordering::Greater)
+		} else {
+			self.distance.partial_cmp(&other.distance)
+		}
+	}
+}
+
+impl std::cmp::Ord for Node {
+	fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+		if self.distance == other.distance {
+			std::cmp::Ordering::Greater
+		} else {
+			self.distance.cmp(&other.distance)
+		}
+	}
+}
+
 
 fn adjacent_indices(index: usize, row_size: usize) -> Vec<usize> {
 	let mut ret = vec![index.wrapping_sub(row_size), index.saturating_add(row_size)];
@@ -46,31 +73,21 @@ pub fn day_15(file: &str, full: bool) -> u32 {
 		width *= 5;
 	}
 
-	// This code is absolute garbage and takes 10 minutes on part 2 even in release mode
-	// I don't care
-	// Fuck pathfinding problems
-	// I'll fix it later
-
 	let mut distance = vec![u32::MAX; graph.len()];
 	let mut previous = vec![usize::MAX; graph.len()];
-	let mut frontier = (0..graph.len()).fold(BTreeSet::new(), |mut set, i| {
-		set.insert(i);
-		set
+	let (mut frontier, mut qset) = (0..graph.len()).fold((BTreeSet::new(), HashSet::new()), |(mut set, mut qset), i| {
+		let node = Node{index: i, distance: if i == 0 { 0 } else { u32::MAX } };
+		set.insert(node.clone());
+		qset.insert(node);
+		(set, qset)
 	});
 
 	distance[0] = 0;
 
 	while !frontier.is_empty() {
-		let mut min = u32::MAX;
-		let mut min_index = usize::MAX;
-		for i in 0..distance.len() {
-			if distance[i] < min && frontier.contains(&i) {
-				min = distance[i];
-				min_index = i;
-			}
-		}
-
-		frontier.remove(&min_index);
+		let min = frontier.pop_first().unwrap();
+		qset.remove(&min);
+		let min_index = min.index;
 
 		if min_index == graph.len() - 1 {
 			let mut cost = 0u32;
@@ -84,11 +101,19 @@ pub fn day_15(file: &str, full: bool) -> u32 {
 		}
 		
 		for neighbor in adjacent_indices(min_index, width) {
-			if neighbor < graph.len() && frontier.contains(&neighbor) {
-				let temp = distance[min_index].saturating_add(graph[neighbor] as u32);
-				if temp < distance[neighbor] {
-					distance[neighbor] = temp;
-					previous[neighbor] = min_index;
+			if neighbor < graph.len() {
+				let mut node = Node{index: neighbor, distance: distance[neighbor]};
+				if qset.contains(&node) {
+					let temp = distance[min_index].saturating_add(graph[neighbor] as u32);
+					if temp < distance[neighbor] {
+						distance[neighbor] = temp;
+						previous[neighbor] = min_index;
+						frontier.remove(&node);
+						qset.remove(&node);
+						node.distance = temp;
+						frontier.insert(node.clone());
+						qset.insert(node);
+					}
 				}
 			}
 		}
@@ -99,6 +124,6 @@ pub fn day_15(file: &str, full: bool) -> u32 {
 
 #[test]
 fn test_day_15() {
-	//assert_eq!(day_15("day_15_test.txt", false), 40);
-	//assert_eq!(day_15("day_15_test.txt", true), 315);
+	assert_eq!(day_15("day_15_test.txt", false), 40);
+	assert_eq!(day_15("day_15_test.txt", true), 315);
 }

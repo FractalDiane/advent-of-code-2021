@@ -4,6 +4,8 @@
 // Ferro of the Bells:
 // 25 Days of Rustmas
 
+#![feature(map_first_last)]
+
 mod useful;
 
 mod day_01;
